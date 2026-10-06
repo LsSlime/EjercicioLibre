@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Videojuegos</title>
+    <link rel="stylesheet" th:href="@{/css/comun.css}">
+    <link rel="stylesheet" th:href="@{/css/lista-juegos.css}">
+</head>
+<body class="pagina">
+
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-dark barra-navegacion">
+        <div class="container">
+            <a class="navbar-brand marca" th:href="@{/juegos}">
+                <i class="bi bi-controller marca-icono"></i>GameStore
+            </a>
+            <span class="navbar-text marca-descripcion">Gestión de Catálogo</span>
+        </div>
+    </nav>
+
+    <!-- Contenedor Principal -->
+    <main class="container contenido">
+        <section id="listado-juegos" class="card tarjeta" aria-labelledby="titulo-listado">
+            <div class="card-header catalogo-cabecera">
+                <div>
+                    <h1 id="titulo-listado" class="titulo-pagina">
+                        <i class="bi bi-collection-play catalogo-icono"></i>Catálogo de Videojuegos
+                    </h1>
+                    <p class="catalogo-descripcion">Listado de títulos disponibles en el inventario</p>
+                </div>
+                <a th:href="@{/juegos/nuevo}" class="btn btn-primary boton-nuevo">
+                    <i class="bi bi-plus-circle"></i>
+                    <span>Nuevo Videojuego</span>
+                </a>
+            </div>
+
+            <div class="card-body catalogo-cuerpo">
+                <!-- Alerta cuando no hay juegos -->
+                <div th:if="${#lists.isEmpty(juegos)}" class="catalogo-vacio">
+                    <i class="bi bi-inbox catalogo-vacio-icono"></i>
+                    <h5 class="catalogo-vacio-titulo">No hay videojuegos registrados en el catálogo</h5>
+                    <p class="catalogo-vacio-descripcion">Comienza agregando tu primer juego con el botón superior.</p>
+                    <a th:href="@{/juegos/nuevo}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-plus-lg registrar-icono"></i>Registrar Juego
+                    </a>
+                </div>
+
+                <!-- Tabla de Juegos -->
+                <div th:unless="${#lists.isEmpty(juegos)}" class="table-responsive">
+                    <table class="table table-hover tabla-juegos">
+                        <caption class="visually-hidden">Videojuegos del catálogo y acciones para editarlos o eliminarlos</caption>
+                        <thead class="table-light tabla-cabecera">
+                            <tr>
+                                <th scope="col" class="columna-id">ID</th>
+                                <th scope="col">Título</th>
+                                <th scope="col">Género</th>
+                                <th scope="col">Plataforma</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Año / Lanzamiento</th>
+                                <th scope="col" class="columna-acciones">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="juego : ${juegos}">
+                                <td class="columna-id juego-id" th:text="${juego.id}">1</td>
+                                <td>
+                                    <div class="juego-titulo" th:text="${juego.titulo}">The Legend of Zelda</div>
+                                </td>
+                                <td>
+                                    <span class="badge juego-genero"
+                                          th:text="${juego.genero}">Aventura</span>
+                                </td>
+                                <td>
+                                    <span class="badge juego-plataforma"
+                                          th:text="${juego.plataforma}">Nintendo Switch</span>
+                                </td>
+                                <td>
+                                    <span class="juego-precio" th:text="'$' + ${#numbers.formatDecimal(juego.precio, 1, 'POINT', 2, 'COMMA')}">$59.99</span>
+                                </td>
+                                <td class="juego-anio" th:text="${juego.fecha_lanzamiento}">2023</td>
+                                <td class="columna-acciones">
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a th:href="@{/juegos/editar/{id}(id=${juego.id})}"
+                                           class="btn btn-outline-primary"
+                                           title="Editar videojuego">
+                                            <i class="bi bi-pencil-square"></i>
+                                            <span class="accion-texto">Editar</span>
+                                        </a>
+                                        <a th:href="@{/juegos/eliminar/{id}(id=${juego.id})}"
+                                           class="btn btn-outline-danger"
+                                           title="Eliminar videojuego">
+                                            <i class="bi bi-trash"></i>
+                                            <span class="accion-texto">Eliminar</span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Resumen y controles del listado -->
+            <footer th:unless="${#lists.isEmpty(juegos)}" class="card-footer catalogo-pie">
+                <span class="catalogo-contador" data-resumen role="status">
+                    Total de registros: <strong th:text="${#lists.size(juegos)}">0</strong>
+                </span>
+                <div class="catalogo-controles" data-paginacion hidden>
+                    <label class="catalogo-tamano">
+                        Juegos por página
+                        <select class="form-select form-select-sm" data-tamano-pagina>
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="20">20</option>
+                        </select>
+                    </label>
+                    <nav class="catalogo-paginacion" aria-label="Paginación de videojuegos">
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-anterior>Anterior</button>
+                        <div class="catalogo-paginas" data-paginas></div>
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-siguiente>Siguiente</button>
+                    </nav>
+                </div>
+            </footer>
+        </section>
+    </main>
+
+    <script th:src="@{/js/listado-juegos.js}" defer></script>
+</body>
+</html>

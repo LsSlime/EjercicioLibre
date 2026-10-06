@@ -1,0 +1,46 @@
+/* Presentacion del catalogo. */
+.catalogo-cabecera {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: .5rem; padding-top: 1rem; padding-bottom: 1rem;
+    background-color: var(--bs-white); border: 0;
+}
+.catalogo-icono { margin-right: .5rem; color: var(--bs-primary); }
+.catalogo-descripcion { margin-bottom: 0; color: var(--bs-secondary-color); font-size: .875em; }
+.boton-nuevo { display: inline-flex; align-items: center; gap: .5rem; box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075); }
+.catalogo-cuerpo { padding: 0; }
+.catalogo-vacio { text-align: center; padding: 3rem 1rem; }
+.catalogo-vacio-icono { display: block; color: var(--bs-secondary-color); font-size: calc(1.475rem + 2.7vw); font-weight: 300; line-height: 1.2; margin-bottom: 1rem; }
+.catalogo-vacio-titulo { color: var(--bs-secondary-color); font-weight: 400; }
+.catalogo-vacio-descripcion { color: var(--bs-secondary); font-size: .875em; margin-bottom: 1.5rem; }
+.registrar-icono { margin-right: .25rem; }
+.tabla-juegos { vertical-align: middle; margin-bottom: 0; }
+.tabla-cabecera { --bs-table-color: var(--bs-secondary); text-transform: uppercase; font-size: .875em; }
+.tabla-juegos .columna-id { padding-left: 1.5rem; }
+.tabla-juegos .columna-acciones { text-align: right; padding-right: 1.5rem; }
+.tabla-juegos .juego-id { font-weight: 600; color: var(--bs-secondary); }
+.juego-titulo { font-weight: 700; color: var(--bs-dark); }
+.juego-genero, .juego-plataforma { padding: .25rem .5rem; border: 1px solid; }
+.juego-genero { background-color: var(--bs-info-bg-subtle); color: var(--bs-info-text-emphasis); border-color: var(--bs-info-border-subtle); border-radius: 50rem; }
+.juego-plataforma { background-color: var(--bs-secondary-bg-subtle); color: var(--bs-secondary-text-emphasis); border-color: var(--bs-secondary-border-subtle); }
+.juego-precio { font-weight: 700; color: var(--bs-success); }
+.tabla-juegos .juego-anio { color: var(--bs-secondary); }
+.accion-texto { display: none; margin-left: .25rem; }
+.catalogo-pie {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem; background-color: var(--bs-white);
+    border: 0; padding-top: 1rem; padding-bottom: 1rem;
+}
+.catalogo-contador { color: var(--bs-secondary-color); font-size: .875em; }
+.catalogo-controles:not([hidden]), .catalogo-paginacion, .catalogo-paginas {
+    display: flex; align-items: center; flex-wrap: wrap; gap: .5rem;
+}
+.catalogo-controles { gap: 1rem; }
+.catalogo-tamano { display: flex; align-items: center; gap: .5rem; font-size: .875em; }
+.catalogo-tamano select { width: auto; }
+.tabla-juegos tr[hidden] { display: none; }
+@media (min-width: 768px) {
+    .accion-texto { display: inline; }
+}
+@media (min-width: 1200px) {
+    .catalogo-vacio-icono { font-size: 3.5rem; }
+}

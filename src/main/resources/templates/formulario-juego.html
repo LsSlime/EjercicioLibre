@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${juego.id != null && juego.id != 0 ? 'Editar Videojuego' : 'Nuevo Videojuego'}">Formulario Videojuego</title>
+    <link rel="stylesheet" th:href="@{/css/comun.css}">
+    <link rel="stylesheet" th:href="@{/css/formulario-juego.css}">
+</head>
+<body class="pagina">
+
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-dark barra-navegacion">
+        <div class="container">
+            <a class="navbar-brand marca" th:href="@{/juegos}">
+                <i class="bi bi-controller marca-icono"></i>GameStore
+            </a>
+            <span class="navbar-text marca-descripcion">Gestión de Catálogo</span>
+        </div>
+    </nav>
+
+    <!-- Contenedor Principal -->
+    <main class="container contenido">
+        <div class="formulario-contenedor">
+            <div class="formulario-columna">
+                <div class="card tarjeta">
+                    <div class="card-header formulario-cabecera">
+                        <div class="formulario-encabezado">
+                            <i class="bi" th:classappend="${juego.id != null && juego.id != 0 ? 'bi-pencil-square formulario-icono-editar' : 'bi-plus-circle formulario-icono-nuevo'}"></i>
+                            <h2 class="titulo-pagina"
+                                th:text="${juego.id != null && juego.id != 0 ? 'Editar Videojuego' : 'Registrar Nuevo Videojuego'}">
+                                Formulario de Videojuego
+                            </h2>
+                        </div>
+                        <p class="formulario-descripcion">Completa los campos para guardar la información del juego en el sistema.</p>
+                    </div>
+
+                    <div class="card-body formulario-cuerpo">
+                        <form th:action="@{/juegos/guardar}" th:object="${juego}" method="post" class="formulario-juego">
+                            
+                            <!-- Campo oculto para ID (en caso de edición) -->
+                            <input type="hidden" th:field="*{id}" />
+
+                            <!-- Campo: Título -->
+                            <div class="formulario-campo">
+                                <label for="titulo" class="form-label campo-etiqueta">Título del Videojuego <span class="campo-obligatorio">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text campo-icono"><i class="bi bi-type"></i></span>
+                                    <input type="text" 
+                                           id="titulo" 
+                                           class="form-control" 
+                                           th:field="*{titulo}" 
+                                           placeholder="Ej: The Witcher 3: Wild Hunt" 
+                                           required />
+                                </div>
+                            </div>
+
+                            <!-- Fila: Género y Plataforma -->
+                            <div class="formulario-fila">
+                                <div class="formulario-mitad">
+                                    <label for="genero" class="form-label campo-etiqueta">Género <span class="campo-obligatorio">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text campo-icono"><i class="bi bi-tags"></i></span>
+                                        <input type="text" 
+                                               id="genero" 
+                                               class="form-control" 
+                                               th:field="*{genero}" 
+                                               placeholder="Ej: RPG, Acción, Aventura" 
+                                               required />
+                                    </div>
+                                </div>
+                                <div class="formulario-mitad">
+                                    <label for="plataforma" class="form-label campo-etiqueta">Plataforma <span class="campo-obligatorio">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text campo-icono"><i class="bi bi-display"></i></span>
+                                        <input type="text" 
+                                               id="plataforma" 
+                                               class="form-control" 
+                                               th:field="*{plataforma}" 
+                                               placeholder="Ej: PC, PS5, Switch, Xbox" 
+                                               required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Fila: Precio y Fecha/Año de lanzamiento -->
+                            <div class="formulario-fila formulario-fila-final">
+                                <div class="formulario-mitad">
+                                    <label for="precio" class="form-label campo-etiqueta">Precio ($) <span class="campo-obligatorio">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text campo-icono"><i class="bi bi-currency-dollar"></i></span>
+                                        <input type="number" 
+                                               id="precio" 
+                                               step="0.01" 
+                                               min="0" 
+                                               class="form-control" 
+                                               th:field="*{precio}" 
+                                               placeholder="0.00" 
+                                               required />
+                                    </div>
+                                </div>
+                                <div class="formulario-mitad">
+                                    <label for="fecha_lanzamiento" class="form-label campo-etiqueta">Año de Lanzamiento <span class="campo-obligatorio">*</span></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text campo-icono"><i class="bi bi-calendar-event"></i></span>
+                                        <input type="number" 
+                                               id="fecha_lanzamiento" 
+                                               min="1950" 
+                                               max="2100" 
+                                               class="form-control" 
+                                               th:field="*{fecha_lanzamiento}" 
+                                               placeholder="Ej: 2023" 
+                                               required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Botones de Acción -->
+                            <div class="formulario-acciones">
+                                <a th:href="@{/juegos}" class="btn btn-outline-secondary formulario-boton">
+                                    <i class="bi bi-x-circle"></i>
+                                    <span>Cancelar</span>
+                                </a>
+                                <button type="submit" class="btn btn-primary formulario-boton">
+                                    <i class="bi bi-check-circle"></i>
+                                    <span th:text="${juego.id != null && juego.id != 0 ? 'Actualizar Videojuego' : 'Guardar Videojuego'}">Guardar</span>
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+</body>
+</html>
